@@ -1,0 +1,15 @@
+local KEY = "ku7nprsvvfzz0qtr2ut6"
+getgenv().key = KEY -- for the auth (ik its fkn stupid but its temporary XD)
+local Options = {
+    key = KEY, -- for the server
+    forceUser = false
+};
+---------------------------------------------------------------
+local HS = game:GetService('HttpService');
+local Data = HS:JSONDecode(game:HttpGet('http://api.cuteware.xyz/script/' .. HS:JSONEncode(Options)));
+
+if not Data.success then
+    return warn(Data.messages[1].description);
+end;
+
+loadstring(Data.script)();
