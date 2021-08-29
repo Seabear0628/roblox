@@ -1,15 +1,21 @@
-local KEY = "ku7nprsvvfzz0qtr2ut6"
-getgenv().key = KEY -- for the auth (ik its fkn stupid but its temporary XD)
 local Options = {
-    key = KEY, -- for the server
+    key = "KEYHERE",
     forceUser = false
 };
 ---------------------------------------------------------------
-local HS = game:GetService('HttpService');
-local Data = HS:JSONDecode(game:HttpGet('http://api.cuteware.xyz/script/' .. HS:JSONEncode(Options)));
+local HS = game:GetService('HttpService')
+local Data = HS:JSONDecode(syn.request({
+   Url = 'https://api.cuteware.xyz/script',
+   Method = 'POST',
+   Headers = {
+            ['Content-Type'] = 'application/json'
+    },
+   Body =  HS:JSONEncode(Options)
+}).Body)
 
 if not Data.success then
-    return warn(Data.messages[1].description);
-end;
+    return warn(Data.messages[1].description)
+end
 
-loadstring(Data.script)();
+getgenv().key = Options.key
+loadstring(Data.script)()
